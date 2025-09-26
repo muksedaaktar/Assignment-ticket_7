@@ -1,12 +1,23 @@
 
 import './App.css'
+import Navbar from './components/Navbar/Navbar'
+import Banner from './components/Navbar/Banner/Banner'
+import Footer from './components/Navbar/Footer/Footer'
+
+
+
 
 function App() {
   
 
   return (
     <>
-     i am here
+    <Navbar></Navbar>
+    <Banner></Banner>
+    <Footer></Footer>
+    
+
+     
     </>
   )
 }
