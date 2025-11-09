@@ -2,13 +2,13 @@ import React from 'react';
 
 const Navbar = () => {
     return (
-        <div class="navbar max-w-[1440px] mx-auto inter flex justify-between">
-      <div className='font-bold text-[24px]'>
+        <div className='navbar max-w-[1440px] mx-auto inter flex  justify-between flex-col md:flex-row'>
+      <div className='font-bold text-[24px] '>
         <h1>CS — Ticket System</h1>
       </div>
   
-  <div class="flex-none">
-    <ul class="menu menu-horizontal px-1">
+  <div className="flex-none">
+    <ul className="menu menu-horizontal px-1">
       <li><a>Home</a></li>
       <li><a>FAQ</a></li>
       <li><a>Changelog</a></li>
