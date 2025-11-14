@@ -1,19 +1,43 @@
-import React,{use} from 'react';
+import React,{use , useState} from 'react';
 import cardIcon1 from "../../assets/Ellipse 22.png"
 import cardIcon2 from "../../assets/Vector.png"
 
 
 const Tickets = ({ticketPromise}) => {
     const ticketData = use (ticketPromise)
-    console.log(ticketData)
-    return (
+    // console.log(ticketData)
+    const [tickets, setTickets] = useState(ticketData)
+     
+    
+     const[selectedTicket, setselectedTicket] = useState([])
+
+     
+     const[resolvedTicket, setResolvedTicket] = useState([])
+
+     const handleTicketClick = (ticket)=>{
+        if (!selectedTicket.find(t => t.id == ticket.id)){
+            setselectedTicket([...selectedTicket, ticket])
+
+        }
+
+        }
+
+     const handleComplete = (ticket)=>{
+        
+            setResolvedTicket([...resolvedTicket,ticket]);
+            setselectedTicket(selectedTicket.filter(t => t.id !==ticket.id))
+            setTickets(tickets.filter(t => t.id !== ticket.id))
+        
+     }
+    return  (
         <div className='bg-gray-100 pb-5'>
             <div className='max-w-[1440px] mx-auto inter flex justify-between pb-4 flex-col md:flex-row'> 
            <div className=''>
                <h3 className='font-semibold text-xl text-[#34485A]'>Customer Tickets</h3>
                <div className='grid md:grid-cols-2 grid-cols-1 gap-4'>
                 {
-                ticketData.map(ticket=><div className='ticket_contianer bg-white   p-4 rounded-xl mt-4'>
+                tickets.map(ticket=><div key={ticket.id} onClick={()=>handleTicketClick(ticket)}
+                className='ticket_contianer bg-white   p-4 rounded-xl mt-4'>
                  <div className='flex justify-between '>
                     <h2 className='font-bold'>{ticket.title}</h2>
                     <div className={`flex gap-2  font-medium p-1.5 rounded-full ${ticket.status === "Open" ? "bg-[#B9F8CF] text-[#0B5E06]" : ""}
@@ -49,14 +73,35 @@ const Tickets = ({ticketPromise}) => {
                
                
             </div>
-           <div className='ml-5'>
+
+             
+           <div className='ml-5 mb-5'>
                 <div>
                     <h3 className='font-semibold text-xl text-[#34485A]'>Task Status</h3>
-                    <p className='text-[#627382]'>Select a ticket to add to Task Status</p>
+                   {
+                    selectedTicket.length ==0 && ( <p className='text-[#627382]'>Select a ticket to add to Task Status</p>)
+                   }
+                    
+                    {
+                        selectedTicket.map (ticket=>(<div key={ticket.id} className='bg-white p-4 rounded-xl mb-2'>
+                        <p className=''>{ticket.title}</p>
+                        <button onClick={()=>handleComplete(ticket)} className='bg-[#02A53B] text-white rounded-[10px] w-full p-2'>Complete</button>
+                    </div>))
+                    }
+
                 </div>
-                <div>
+                <div className='mt-5'>
                     <h3 className='font-semibold text-xl text-[#34485A]'>Resolved Task</h3>
-                    <p className='text-[#627382]'>No resolved tasks yet.</p>
+                    {
+                        resolvedTicket.length == 0 &&(<p className='text-[#627382]'>No resolved tasks yet.</p>)
+                    }
+                    
+                     {
+                        resolvedTicket.map(task=> (<p className='bg-white p-3 rounded-xl mb-2 '>{task.title} <br /><span className='text-green-600 font-semibold'>Complete</span></p>
+                            
+                        ))
+                     }
+
                 </div>
            </div>
         </div>
