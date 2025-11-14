@@ -1,34 +1,43 @@
-import React,{use , useState} from 'react';
+import React,{ useState , useEffect} from 'react';
 import cardIcon1 from "../../assets/Ellipse 22.png"
 import cardIcon2 from "../../assets/Vector.png"
+import { toast } from 'react-toastify';
 
 
-const Tickets = ({ticketPromise}) => {
-    const ticketData = use (ticketPromise)
-    // console.log(ticketData)
-    const [tickets, setTickets] = useState(ticketData)
-     
-    
-     const[selectedTicket, setselectedTicket] = useState([])
 
-     
-     const[resolvedTicket, setResolvedTicket] = useState([])
+const Tickets = ({ ticketPromise , setInProgressCount, setResolvedCount }) => {
+  const [tickets, setTickets] = useState([]);
+  const [selectedTicket, setSelectedTicket] = useState([]);
+  const [resolvedTicket, setResolvedTicket] = useState([]);
 
-     const handleTicketClick = (ticket)=>{
-        if (!selectedTicket.find(t => t.id == ticket.id)){
-            setselectedTicket([...selectedTicket, ticket])
+  
+  useEffect(() => {
+    ticketPromise.then((data) => {
+      setTickets(data);
+       
+    });
+  }, [ticketPromise]);
 
-        }
+  
+  const handleTicketClick = (ticket) => {
+    if (!selectedTicket.find((t) => t.id === ticket.id)) {
+      setSelectedTicket([...selectedTicket, ticket]);
+      setInProgressCount((prev)=>prev+1)
+      toast.success(`In Progress!`);
+    }
+  };
 
-        }
+  
+  const handleComplete = (ticket) => {
+    setResolvedTicket([...resolvedTicket, ticket]);
 
-     const handleComplete = (ticket)=>{
-        
-            setResolvedTicket([...resolvedTicket,ticket]);
-            setselectedTicket(selectedTicket.filter(t => t.id !==ticket.id))
-            setTickets(tickets.filter(t => t.id !== ticket.id))
-        
-     }
+    setSelectedTicket(selectedTicket.filter((t) => t.id !== ticket.id));
+    setTickets(tickets.filter((t) => t.id !== ticket.id));
+    setInProgressCount((prev) => prev - 1); 
+    setResolvedCount((prev) => prev + 1);
+
+    toast.success(`Completed!`);
+  };
     return  (
         <div className='bg-gray-100 pb-5'>
             <div className='max-w-[1440px] mx-auto inter flex justify-between pb-4 flex-col md:flex-row'> 
@@ -97,7 +106,7 @@ const Tickets = ({ticketPromise}) => {
                     }
                     
                      {
-                        resolvedTicket.map(task=> (<p className='bg-white p-3 rounded-xl mb-2 '>{task.title} <br /><span className='text-green-600 font-semibold'>Complete</span></p>
+                        resolvedTicket.map(task=> (<p className='bg-white p-3 rounded-xl mb-2 '>{task.title} <br /><span className='text-green-600 font-semibold'>✔Complete</span></p>
                             
                         ))
                      }
