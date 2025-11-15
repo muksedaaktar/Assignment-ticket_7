@@ -16,7 +16,7 @@ const Tickets = ({ ticketPromise , setInProgressCount, setResolvedCount }) => {
       setTickets(data);
        
     });
-  }, [ticketPromise]);
+  }, []);
 
   
   const handleTicketClick = (ticket) => {
@@ -106,7 +106,7 @@ const Tickets = ({ ticketPromise , setInProgressCount, setResolvedCount }) => {
                     }
                     
                      {
-                        resolvedTicket.map(task=> (<p className='bg-white p-3 rounded-xl mb-2 '>{task.title} <br /><span className='text-green-600 font-semibold'>✔Complete</span></p>
+                        resolvedTicket.map(task=> (<p key={task.id} className='bg-white p-3 rounded-xl mb-2 '>{task.title} <br /><span className='text-green-600 font-semibold'>✔Complete</span></p>
                             
                         ))
                      }

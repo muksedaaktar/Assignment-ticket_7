@@ -15,5 +15,5 @@
 # 4.URL Params / Query Params
 
 ## How is event handling done in React?
-# Ans: In React, events are handled using CamelCase props, functions are passed as handlers, and event objects are wrapped as SyntheticEvents for cross-browser consistency.
+# Ans:In React, events are handled using CamelCase props, functions are passed as handlers, and event objects are wrapped as SyntheticEvents for cross-browser consistency.
 
